@@ -134,8 +134,26 @@ function isTriangle(a, b, c) {
  *   { top:20, left:20, width: 20, height: 20 }    =>  false
  *
  */
-function doRectanglesOverlap(/* rect1, rect2 */) {
-  throw new Error('Not implemented');
+function doRectanglesOverlap(rect1, rect2) {
+  const l1 = [rect1.top, rect1.left];
+  const r1 = [rect1.top + rect1.height, rect1.left + rect1.width];
+  const l2 = [rect2.top, rect2.left];
+  const r2 = [rect2.top + rect2.height, rect2.left + rect2.width];
+  if (
+    l1[0] === r1[0]
+    || l1[1] === r1[1]
+    || r2[0] === l2[0]
+    || l2[1] === r2[1]
+  ) {
+    return false;
+  }
+  if (l1[0] > r2[0] || l2[0] > r1[0]) {
+    return false;
+  }
+  if (l1[1] > r2[1] || l2[1] > r1[1]) {
+    return false;
+  }
+  return true;
 }
 
 
@@ -427,8 +445,19 @@ function getCommonDirectoryPath(pathes) {
  *                         [ 6 ]]
  *
  */
-function getMatrixProduct(/* m1, m2 */) {
-  throw new Error('Not implemented');
+function getMatrixProduct(m1, m2) {
+  const result = [];
+  for (let i = 0; i < m1.length; i += 1) {
+    result[i] = [];
+    for (let j = 0; j < m2[0].length; j += 1) {
+      let sum = 0;
+      for (let k = 0; k < m1[0].length; k += 1) {
+        sum += m1[i][k] * m2[k][j];
+      }
+      result[i][j] = sum;
+    }
+  }
+  return result;
 }
 
 
@@ -474,7 +503,7 @@ function evaluateTicTacToePosition(position) {
     }
   }
   if ((position[0][0] === position[1][1] && position[2][2] === position[1][1])
-  || (position[1][1] === position[2][0] && position[2][0] === position[0][2])) {
+    || (position[1][1] === position[2][0] && position[2][0] === position[0][2])) {
     return position[1][1];
   }
   return undefined;
